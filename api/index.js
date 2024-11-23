@@ -1,18 +1,16 @@
 const express = require('express');
+require('dotenv').config();
 const nodemailer = require('nodemailer');
 const app = express();
 
-require('dotenv').config();
-
 app.use(express.json());
 
-app.get('/data', (req, res) => {
-    return res.send('<h1>Some test data</h1>')
+app.get('/', (req, res) => {
+    return res.send('<h1>wasup</h1>')
 })
 
 app.post('/send-email', async (req, res) => {
     const { subject, message } = req.body;
-
 
     let transporter = nodemailer.createTransport({
         service: "gmail",
@@ -25,7 +23,7 @@ app.post('/send-email', async (req, res) => {
     try {
         await transporter.sendMail({
             from: process.env.EMAIL_NAME,
-            to: 'yuriev200@gmail.com',
+            to: process.env.MAIL_TO,
             subject: subject,
             text: message
         });
@@ -35,4 +33,6 @@ app.post('/send-email', async (req, res) => {
     }
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(3001, () => console.log('Server running on port 3000'));
+
+module.exports = app;
