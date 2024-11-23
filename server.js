@@ -6,6 +6,10 @@ require('dotenv').config();
 
 app.use(express.json());
 
+app.get('/data', (req, res) => {
+    return res.send('<h1>Some test data</h1>')
+})
+
 app.post('/send-email', async (req, res) => {
     const { subject, message } = req.body;
 
